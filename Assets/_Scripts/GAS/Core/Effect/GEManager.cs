@@ -411,7 +411,13 @@ namespace GAS.Core
                     Debug.Log($"[GEManager] GetImStat结果: imStat={imStat}");
                     if (imStat != null)
                     {
-                        // ImStat：直接修改当前值
+                        // 周期效果的 ImStat 由 ApplyPeriodicEffect 处理
+                        if (spec.GEData.IsPeriodic)
+                        {
+                            continue;
+                        }
+
+                        // ImStat 直接修改当前值
                         Debug.Log($"[GEManager] 修改ImStat: {config.statId}, value={finalValue}, type={mod.ModifierType}");
                         imStat.ChangeValue(finalValue, mod.ModifierType);
                     }
