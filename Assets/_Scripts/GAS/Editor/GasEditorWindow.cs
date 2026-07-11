@@ -38,10 +38,10 @@ namespace GAS.Editor
             mPageList.Clear();
             mPageList.Add(new Tag.GasTagBrowserPage());
             mPageList.Add(new Stat.GasStatBrowserPage());
-            mPageList.Add(new GasPlaceholderPage("GE", "GameplayEffect 配置工作台 待接入"));
-            mPageList.Add(new GasPlaceholderPage("Ability", "技能配置工作台 待接入"));
+            mPageList.Add(new Effect.GasEffectBrowserPage());
+            mPageList.Add(new Ability.GasAbilityBrowserPage());
             mPageList.Add(new GasPlaceholderPage("Debug", "Play 模式 ASC 调试 待接入"));
-            // 后续把占位页替换为真实页签即可
+
 
             mTabTitleList = new string[mPageList.Count];
             for (int i = 0; i < mPageList.Count; i++)
@@ -76,8 +76,11 @@ namespace GAS.Editor
             mSelectedIndex = GUILayout.Toolbar(mSelectedIndex, mTabTitleList);
             EditorGUILayout.Space(6f);
 
+            //页签内容占满剩余高度 方便子页 ExpandHeight 适配分辨率
+            EditorGUILayout.BeginVertical(GUILayout.ExpandHeight(true));
             IGasEditorPage page = mPageList[mSelectedIndex];
             page.OnGUI();
+            EditorGUILayout.EndVertical();
         }
     }
 }

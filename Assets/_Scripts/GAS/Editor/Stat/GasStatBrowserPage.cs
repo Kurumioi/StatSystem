@@ -167,34 +167,44 @@ namespace GAS.Editor.Stat
         private void DrawStatRow(StatData data)
         {
             bool selected = mSelected == data;
-            Rect blockRect = EditorGUILayout.BeginVertical();
-            if (selected)
-                EditorGUI.DrawRect(blockRect, new Color(0.24f, 0.37f, 0.60f, 0.28f));
+            Rect rowRect = GasEditorListGUI.BeginRow(40f, selected);
 
-            EditorGUILayout.BeginHorizontal();
+            const float buttonWidth = 40f;
+            const float buttonGap = 2f;
+            float rightReserved = buttonWidth + 44f + buttonGap * 3f;
+
+            Rect deleteRect = new Rect(rowRect.xMax - 44f - buttonGap, rowRect.y + 4f, 44f, 18f);
+            Rect pingRect = new Rect(deleteRect.x - buttonWidth - buttonGap, rowRect.y + 4f, buttonWidth, 18f);
+            Rect labelRect = new Rect(rowRect.x + 4f, rowRect.y + 2f, pingRect.x - rowRect.x - 8f, 18f);
+            Rect previewRect = new Rect(rowRect.x + 4f, rowRect.y + 20f, rowRect.width - rightReserved - 8f, 16f);
+
             string typeLabel = GasStatEditorUtility.GetTypeLabel(data.StatType);
-            if (GUILayout.Button($"[{typeLabel}]  {data.name}", EditorStyles.label))
+            if (Event.current.type == EventType.Repaint)
+            {
+                EditorStyles.label.Draw(labelRect, $"[{typeLabel}]  {data.name}", false, false, false, false);
+                EditorStyles.miniLabel.Draw(
+                    previewRect,
+                    GasStatEditorUtility.BuildPreviewText(data),
+                    false,
+                    false,
+                    false,
+                    false);
+            }
+
+            if (GasEditorListGUI.SelectableContent(rowRect, rightReserved))
                 SelectStat(data);
 
-            if (GUILayout.Button("定位", GUILayout.Width(40f)))
+            if (GUI.Button(pingRect, "定位"))
             {
                 Selection.activeObject = data;
                 EditorGUIUtility.PingObject(data);
             }
 
+            Color old = GUI.backgroundColor;
             GUI.backgroundColor = new Color(1f, 0.55f, 0.55f);
-            if (GUILayout.Button("删除", GUILayout.Width(44f)))
+            if (GUI.Button(deleteRect, "删除"))
                 TryDeleteStat(data);
-            GUI.backgroundColor = Color.white;
-            EditorGUILayout.EndHorizontal();
-
-            EditorGUILayout.LabelField(GasStatEditorUtility.BuildPreviewText(data), EditorStyles.miniLabel);
-            EditorGUILayout.EndVertical();
-
-            //条目分割线
-            Rect lineRect = GUILayoutUtility.GetRect(1f, 1f, GUILayout.ExpandWidth(true));
-            EditorGUI.DrawRect(lineRect, new Color(0.45f, 0.45f, 0.45f, 0.55f));
-            EditorGUILayout.Space(3f);
+            GUI.backgroundColor = old;
         }
 
         /// <summary>

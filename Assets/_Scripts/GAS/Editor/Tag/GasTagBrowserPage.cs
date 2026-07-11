@@ -147,26 +147,34 @@ namespace GAS.Editor.Tag
                 }
 
                 bool selected = tag == mSelectedTag;
-                Rect rowRect = EditorGUILayout.BeginHorizontal();
-                if (selected)
-                {
-                    EditorGUI.DrawRect(rowRect, new Color(0.24f, 0.37f, 0.60f, 0.35f));
-                }
+                Rect rowRect = GasEditorListGUI.BeginRow(22f, selected);
+
+                const float copyWidth = 44f;
+                const float deleteWidth = 32f;
+                const float gap = 2f;
+                float rightReserved = copyWidth + deleteWidth + gap * 3f;
+
+                Rect deleteRect = new Rect(rowRect.xMax - deleteWidth - gap, rowRect.y + 1f, deleteWidth, 18f);
+                Rect copyRect = new Rect(deleteRect.x - copyWidth - gap, rowRect.y + 1f, copyWidth, 18f);
+                Rect labelRect = new Rect(rowRect.x + 4f, rowRect.y + 1f, copyRect.x - rowRect.x - 8f, 18f);
 
                 string label = GasTagEditorUtility.BuildTreeLabel(tag);
-                if (GUILayout.Button(label, EditorStyles.label))
+                if (Event.current.type == EventType.Repaint)
+                    EditorStyles.label.Draw(labelRect, label, false, false, false, false);
+
+                if (GasEditorListGUI.SelectableContent(rowRect, rightReserved))
                 {
                     mSelectedTag = tag;
                     mRenameText = tag;
                 }
 
-                if (GUILayout.Button("复制", GUILayout.Width(44f)))
+                if (GUI.Button(copyRect, "复制"))
                 {
                     EditorGUIUtility.systemCopyBuffer = tag;
                     mStatusMessage = $"已复制 {tag}";
                 }
 
-                if (GUILayout.Button("删", GUILayout.Width(32f)))
+                if (GUI.Button(deleteRect, "删"))
                 {
                     if (EditorUtility.DisplayDialog("删除标签", $"确认删除 {tag} ?", "删除", "取消"))
                     {
@@ -179,8 +187,6 @@ namespace GAS.Editor.Tag
                         mStatusMessage = $"已删除 {tag}";
                     }
                 }
-
-                EditorGUILayout.EndHorizontal();
             }
             EditorGUILayout.EndScrollView();
         }

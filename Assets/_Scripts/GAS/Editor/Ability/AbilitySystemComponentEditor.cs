@@ -9,7 +9,7 @@ namespace GAS.Editor.Ability
     /// <summary>
     /// ASC Inspector 初始标签在 Editor 侧单独绘制
     /// </summary>
-    [CustomEditor(typeof(AbilitySystemComponent))]
+    [CustomEditor(typeof(AbilitySystemMgr))]
     public sealed class AbilitySystemComponentEditor : OdinEditor
     {
         /// <summary>

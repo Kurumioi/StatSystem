@@ -9,7 +9,7 @@ namespace GAS.Editor.Ability
     /// <summary>
     /// Ability Inspector 标签数组在 Editor 侧单独绘制
     /// </summary>
-    [CustomEditor(typeof(GameplayAbility), true)]
+    [CustomEditor(typeof(GameplayAbilityData), true)]
     public sealed class GameplayAbilityEditor : OdinEditor
     {
         /// <summary>
