@@ -16,6 +16,8 @@ MonoBehaviour:
   abilityName: "\u9F99\u4EBA\u5BC2\u706D"
   description: "\u6D4B\u8BD5\u6280\u80FD"
   cooldownTime: 2
-  costStatId: MyHp
+  costStatId: HP
   costType: 0
   costValue: 10
+  activationRequiredTags: []
+  activationBlockedTags: []

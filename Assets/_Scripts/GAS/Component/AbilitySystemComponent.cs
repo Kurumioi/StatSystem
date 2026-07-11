@@ -25,7 +25,8 @@ namespace GAS.Component
         [LabelText("初始技能"), SerializeField] private List<GameplayAbility> initialAbilities;
 
         [Header("标签配置")]
-        [LabelText("初始标签"), SerializeField] private string[] initialGameplayTags = Array.Empty<string>();
+        [HideInInspector]
+        [SerializeField] private string[] initialGameplayTags = Array.Empty<string>();
 
         //可激活的技能列表
         private readonly List<AbilitySpec> activatableAbilities = new();

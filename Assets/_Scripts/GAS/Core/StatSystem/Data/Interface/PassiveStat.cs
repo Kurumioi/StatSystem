@@ -1,4 +1,4 @@
-  using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -10,7 +10,7 @@ namespace GAS.StateSystem
     /// 攻击力、防御力、速度等长期持有的属性
     /// </summary>
     [System.Serializable]
-    public class Stat : IPassiveStat
+    public class PassiveStat : IPassiveStat
     {
         //控制器
         private readonly StatController controller;
@@ -25,7 +25,7 @@ namespace GAS.StateSystem
         private readonly float maxValue;
         
         //脏标志：是否需要重新计算
-        private bool m_IsDirty = true;
+        private bool isDirty = true;
 
         //最终值
         private float finalValue;
@@ -33,7 +33,7 @@ namespace GAS.StateSystem
         {
             get
             {
-                if (m_IsDirty)
+                if (isDirty)
                 {
                     CalculateFinalValue();
                 }
@@ -44,12 +44,12 @@ namespace GAS.StateSystem
         //修改事件
         public event Action OnValueChanged;
         
-        private readonly List<StatModifier> modifiers = new List<StatModifier>();
+        private readonly List<StatModifier> modifierList = new List<StatModifier>();
 
         /// <summary>
         /// 构造函数
         /// </summary>
-        public Stat(StatData definition, StatController controller)
+        public PassiveStat(StatData definition, StatController controller)
         {
             this.controller = controller;
             this.baseValue = definition.BaseValue;
@@ -61,7 +61,7 @@ namespace GAS.StateSystem
         /// <summary>
         /// 子类构造函数需调用 base(definition, controller)
         /// </summary>
-        protected Stat() { }
+        protected PassiveStat() { }
 
         public virtual void Initialize()
         {
@@ -73,8 +73,8 @@ namespace GAS.StateSystem
         /// </summary>
         public virtual void AddModifier(StatModifier modifier)
         {
-            modifiers.Add(modifier);
-            m_IsDirty = true;
+            modifierList.Add(modifier);
+            isDirty = true;
         }
 
         /// <summary>
@@ -82,10 +82,10 @@ namespace GAS.StateSystem
         /// </summary>
         public virtual bool RemoveModifier(string modifierId)
         {
-            int removedCount = modifiers.RemoveAll(m => m.Id == modifierId);
+            int removedCount = modifierList.RemoveAll(m => m.Id == modifierId);
             if (removedCount > 0)
             {
-                m_IsDirty = true;
+                isDirty = true;
                 return true;
             }
             return false;
@@ -96,8 +96,8 @@ namespace GAS.StateSystem
         /// </summary>
         public virtual void RemoveModifier(StatModifier modifier)
         {
-            modifiers.Remove(modifier);
-            m_IsDirty = true;
+            modifierList.Remove(modifier);
+            isDirty = true;
         }
 
         /// <summary>
@@ -105,8 +105,8 @@ namespace GAS.StateSystem
         /// </summary>
         public virtual void RemoveModifiersFromSource(object source)
         {
-            int count = modifiers.RemoveAll(m => m.Source == source);
-            if (count > 0) m_IsDirty = true;
+            int count = modifierList.RemoveAll(m => m.Source == source);
+            if (count > 0) isDirty = true;
         }
 
         /// <summary>
@@ -114,8 +114,8 @@ namespace GAS.StateSystem
         /// </summary>
         public virtual void ClearModifiers()
         {
-            modifiers.Clear();
-            m_IsDirty = true;
+            modifierList.Clear();
+            isDirty = true;
         }
 
         /// <summary>
@@ -124,8 +124,8 @@ namespace GAS.StateSystem
         protected virtual void CalculateFinalValue()
         {
             // 0. 升序排列：先按类型，再按优先级
-            var sortedModifiers = modifiers
-                .OrderBy(m => m.ModifierType)
+            var sortedModifiers = modifierList
+                .OrderBy(m => m.eModifierType)
                 .ThenBy(m => m.Priority)
                 .ToList();
 
@@ -134,25 +134,25 @@ namespace GAS.StateSystem
 
             // 2.1 加减（FlatAdd）
             float flatAdd = sortedModifiers
-                .Where(m => m.ModifierType == E_ModifierType.FlatAdd)
+                .Where(m => m.eModifierType == E_ModifierType.FlatAdd)
                 .Sum(m => m.Value);
             result += flatAdd;
 
             // 2.2 百分比（PercentageAdd）
             float percentageAdd = sortedModifiers
-                .Where(m => m.ModifierType == E_ModifierType.PercentageAdd)
+                .Where(m => m.eModifierType == E_ModifierType.PercentageAdd)
                 .Sum(m => m.Value);
             result *= (1 + percentageAdd / 100f); // 1 + 50/100 = 1.5
 
             // 2.3 最终加减（FinalAdd）
             float finalAdd = sortedModifiers
-                .Where(m => m.ModifierType == E_ModifierType.FinalAdd)
+                .Where(m => m.eModifierType == E_ModifierType.FinalAdd)
                 .Sum(m => m.Value);
             result += finalAdd;
 
             // 2.4 最终百分比（FinalPercentage）
             float finalPercentage = sortedModifiers
-                .Where(m => m.ModifierType == E_ModifierType.FinalPercentage)
+                .Where(m => m.eModifierType == E_ModifierType.FinalPercentage)
                 .Sum(m => m.Value);
             result *= (1 + finalPercentage / 100f);
 
@@ -161,7 +161,7 @@ namespace GAS.StateSystem
 
             // 4. 缓存结果
             finalValue = result;
-            m_IsDirty = false;
+            isDirty = false;
 
             // 触发事件
             OnValueChanged?.Invoke();
@@ -172,7 +172,7 @@ namespace GAS.StateSystem
         /// </summary>
         public virtual void ForceRecalculate()
         {
-            m_IsDirty = true;
+            isDirty = true;
             _ = FinalValue; // 触发计算
         }
     }

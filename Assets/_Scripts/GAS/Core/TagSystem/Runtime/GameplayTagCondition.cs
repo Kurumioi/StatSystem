@@ -3,12 +3,19 @@ namespace GAS.TagSystem
     /// <summary>
     /// 标签需求 用于进行条件判断
     /// </summary>
-    public class GameplayTagRequirements
+    public class GameplayTagCondition
     {
-        public GameplayTagContainer NeedTags;//需要的标签(合集)
-        public GameplayTagContainer BanTags; //禁止的标签(合集)
+        /// <summary>
+        /// 需要的标签
+        /// </summary>
+        public GameplayTagContainer NeedTags;
 
-        public GameplayTagRequirements()
+        /// <summary>
+        /// 禁止的标签
+        /// </summary>
+        public GameplayTagContainer BanTags;
+
+        public GameplayTagCondition()
         {
             NeedTags = new GameplayTagContainer();
             BanTags = new GameplayTagContainer();

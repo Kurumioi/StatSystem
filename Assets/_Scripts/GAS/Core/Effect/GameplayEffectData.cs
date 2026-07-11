@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using GAS.StateSystem;
-using GAS.TagSystem;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -15,17 +14,16 @@ namespace GAS.Core.GameplayEffect
     public class GameplayEffectData : SerializedScriptableObject
     {
         [Header("基础信息")]
+        [HideInInspector]
+        [SerializeField] private string[] gameplayTags = Array.Empty<string>();
 
-        [SerializeField, LabelText("分类标签")]
-        private string[] gameplayTags = Array.Empty<string>();
-        
-        [SerializeField, LabelText("需要标签")]
-        private string[] requiredNeedTags = Array.Empty<string>();
-        
-        [SerializeField, LabelText("禁止标签")]
-        private string[] requiredBanTags = Array.Empty<string>();
+        [HideInInspector]
+        [SerializeField] private string[] requiredNeedTags = Array.Empty<string>();
 
-        [Header("时间")] // ------
+        [HideInInspector]
+        [SerializeField] private string[] requiredBanTags = Array.Empty<string>();
+
+        [Header("时间")] 
 
         [SerializeField, LabelText("时间策略")]
         private E_EffectDuration durationPolicy = E_EffectDuration.Instant;
@@ -91,9 +89,10 @@ namespace GAS.Core.GameplayEffect
     [Serializable]
     public class StatModifierConfig
     {
-        public string statId;// 属性ID
-        public E_ModifierType type;// 加成类型
-        public float value; // 值
-        public int priority = 0; //优先级
+        [GasStat]
+        public string statId;
+        public E_ModifierType type;
+        public float value;
+        public int priority = 0;
     }
 }

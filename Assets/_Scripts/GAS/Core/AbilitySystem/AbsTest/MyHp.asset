@@ -23,6 +23,6 @@ MonoBehaviour:
     SerializationNodes: []
   statType: 1
   baseValue: 100
-  minValue: -3.4028235e+38
-  maxValue: 3.4028235e+38
+  minValue: 0
+  maxValue: 100
   resetCurrentValueOnPlay: 1

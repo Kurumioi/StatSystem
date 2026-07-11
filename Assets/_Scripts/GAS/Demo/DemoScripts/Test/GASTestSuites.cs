@@ -155,7 +155,7 @@ namespace GAS.Demo.Test
             GASTestAssert.True(report, "Tag_ContainsAll", container.ContainsAll(new[] { new GameplayTag("Player"), new GameplayTag("Ailment.Poison") }), "ContainsAll 失败");
             GASTestAssert.True(report, "Tag_ContainsAny", container.ContainsAny(new[] { new GameplayTag("Enemy"), new GameplayTag("Player") }), "ContainsAny 失败");
 
-            GameplayTagRequirements requirements = new GameplayTagRequirements();
+            GameplayTagCondition requirements = new GameplayTagCondition();
             requirements.NeedTags.AddTag(new GameplayTag("Player"));
             requirements.BanTags.AddTag(new GameplayTag("Enemy"));
 

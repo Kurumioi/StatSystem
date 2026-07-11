@@ -240,7 +240,7 @@ namespace GAS.Core
                 float finalValue = mod.Value * spec.StackCount;
 
                 // 直接修改属性值（Dot 总是修改即时属性）
-                statController.ChangeAttributeValue(config.statId, finalValue, mod.ModifierType, spec.Source);
+                statController.ChangeAttributeValue(config.statId, finalValue, mod.eModifierType, spec.Source);
             }
             Debug.Log($"[GE] {spec.GEData.name} 周期触发，层数: {spec.StackCount}");
         }
@@ -406,7 +406,7 @@ namespace GAS.Core
                     float finalValue = mod.Value * spec.StackCount;
 
                     // 根据属性类型选择修改方式
-                    Debug.Log($"[GEManager] GetImStat前: statId={config.statId}, StatDict.Keys={string.Join(", ", statController.StatDict.Keys)}");
+                    Debug.Log($"[GEManager] GetImStat前: statId={config.statId}, PassiveKeys={string.Join(", ", statController.PassiveStatDict.Keys)}, ImmediateKeys={string.Join(", ", statController.ImmediateStatDict.Keys)}");
                     var imStat = statController.GetImStat(config.statId);
                     Debug.Log($"[GEManager] GetImStat结果: imStat={imStat}");
                     if (imStat != null)
@@ -418,8 +418,8 @@ namespace GAS.Core
                         }
 
                         // ImStat 直接修改当前值
-                        Debug.Log($"[GEManager] 修改ImStat: {config.statId}, value={finalValue}, type={mod.ModifierType}");
-                        imStat.ChangeValue(finalValue, mod.ModifierType);
+                        Debug.Log($"[GEManager] 修改ImStat: {config.statId}, value={finalValue}, type={mod.eModifierType}");
+                        imStat.ChangeValue(finalValue, mod.eModifierType);
                     }
                     else
                     {

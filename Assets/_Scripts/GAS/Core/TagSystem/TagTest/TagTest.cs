@@ -57,7 +57,7 @@ public class TagTest : MonoBehaviour
         Debug.Log("=== 黑白名单测试 ===");
         
         // 需求：需要Player标签，禁止Enemy标签
-        var req = new GameplayTagRequirements();
+        var req = new GameplayTagCondition();
         req.NeedTags.AddTag(new GameplayTag("Player"));
         req.BanTags.AddTag(new GameplayTag("Enemy"));
 

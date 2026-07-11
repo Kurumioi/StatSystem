@@ -24,7 +24,7 @@ MonoBehaviour:
   gameplayTags:
   - Hurt
   requiredNeedTags:
-  - 
+  - Enemy
   requiredBanTags:
   - 
   durationPolicy: 1
@@ -37,4 +37,8 @@ MonoBehaviour:
   durationRefreshPolicy: 1
   periodResetPolicy: 1
   expirationPolicy: 0
-  statModifierConfig: []
+  statModifierConfig:
+  - statId: 
+    type: 0
+    value: 0
+    priority: 0

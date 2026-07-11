@@ -22,15 +22,18 @@ namespace GAS.AbilitySystem
         [LabelText("冷却时间")]public float cooldownTime = 1f;
 
         [Header("消耗")]
-        [LabelText("消耗属性ID")] public string costStatId;
+        [LabelText("消耗属性ID")]
+        //GasStat 只负责让 Inspector 弹出 Stat 下拉 ImmediateOnly 限制只能选即时属性
+        [GasStat(ImmediateOnly = true)]
+        public string costStatId;
         [LabelText("消耗类型")]public E_CostType costType;
         [LabelText("消耗数值")]public float costValue;
 
         [Header("标签条件")]
-        [LabelText("激活需要标签")]
+        [HideInInspector]
         [SerializeField] private string[] activationRequiredTags = Array.Empty<string>();
 
-        [LabelText("激活禁止标签")]
+        [HideInInspector]
         [SerializeField] private string[] activationBlockedTags = Array.Empty<string>();
 
         /// <summary>
