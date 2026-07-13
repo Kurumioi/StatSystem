@@ -21,7 +21,7 @@ namespace GAS.Editor
         /// <summary>
         /// 打开 GAS 编辑器
         /// </summary>
-        [MenuItem("Tools/MmGAS")]
+        [MenuItem("Tools/MmGAS/Editor", priority = 0)]
         public static void Open()
         {
             GasEditorWindow window = GetWindow<GasEditorWindow>();

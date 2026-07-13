@@ -16,7 +16,7 @@ MonoBehaviour:
   abilityName: NewAbility
   description: 
   cooldownTime: 1
-  costStatId: 
+  costStatId: Test_HP
   costType: 0
   costValue: 0
   applyEffectList: []

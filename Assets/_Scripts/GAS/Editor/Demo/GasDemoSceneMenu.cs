@@ -17,7 +17,7 @@ namespace GAS.Editor.Demo
         /// <summary>
         /// 在当前场景创建 Demo 物体
         /// </summary>
-        [MenuItem("Tools/MmGAS/Create GAS Demo Object")]
+        [MenuItem("Tools/MmGAS/Create GAS Demo Object", priority = 100)]
         public static void CreateDemoObject()
         {
             GameObject root = new GameObject("GAS_Demo");
@@ -30,7 +30,7 @@ namespace GAS.Editor.Demo
         /// <summary>
         /// 新建并打开 Demo 场景
         /// </summary>
-        [MenuItem("Tools/MmGAS/Open GAS Demo Scene")]
+        [MenuItem("Tools/MmGAS/Open GAS Demo Scene", priority = 101)]
         public static void OpenOrCreateDemoScene()
         {
             EnsureFolder("Assets/_Scripts/GAS/Demo");

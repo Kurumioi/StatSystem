@@ -25,16 +25,15 @@ MonoBehaviour:
   - Hurt
   requiredNeedTags:
   - Enemy
-  requiredBanTags:
-  - 
+  requiredBanTags: []
   durationPolicy: 1
   duration: 5
   isPeriodic: 1
   period: 1
   executePeriodicEffectOnApplication: 1
   stackAggregation: 0
-  stackingPolicy: 1
   stackLimit: 1
+  stacksPerApplication: 1
   durationRefreshPolicy: 1
   periodResetPolicy: 1
   expirationPolicy: 0
